@@ -13,10 +13,11 @@ for filename, url in urls.items():
         with open(filename, 'wb') as f:
             f.write(requests.get(url).content)
 
-# Read and combine files
+# Read files separately
 outcomes_a = pd.read_csv('Outcomes-a.txt')
 outcomes_b = pd.read_csv('Outcomes-b.txt')
-df = pd.concat([outcomes_a, outcomes_b], ignore_index=True)
 
-print("Combined shape:", df.shape)
-print("Missing per column:\n", df.isnull().sum())
+print("Outcomes A shape:", outcomes_a.shape)
+print("Outcomes B shape:", outcomes_b.shape)
+print("\nMissing values in Outcomes A:\n", outcomes_a.isnull().sum())
+print("\nMissing values in Outcomes B:\n", outcomes_b.isnull().sum())
