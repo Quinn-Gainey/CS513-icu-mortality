@@ -1,35 +1,33 @@
-ICU Mortality Prediction (PhysioNet 2012)
-Master’s project replicating—and extending—the PhysioNet/CinC 2012 task: predict in-hospital mortality using only the first 48 hours of ICU data. We parse per-patient TXT files (Time, Variable, Value), aggregate windowed features, and evaluate classic models from class.
+# WiDS ICU Mortality Prediction Dataset
 
-Data: PhysioNet Challenge 2012 (Sets A/B + Outcomes-*.txt). Each file = one patient; we build one row per patient.
+This repository contains the **WiDS Datathon 2020 ICU Mortality dataset** and supporting files for exploration and analysis.
 
-Problem: Early risk prediction from 6/12/24/48h windows (no leakage beyond the window).
+## Contents
 
-Features: For vitals/labs (HR, MAP, RR, Temp, SpO₂, Urine, WBC, Hgb, Platelets, Glucose, Na, K, Cr, BUN) compute mean/min/max/std/last/count + missingness flags.
+- `data/training_v2.csv` — main dataset
+- `data/WiDS Datathon 2020 Dictionary.csv` — feature descriptions from WiDS
+- `notebooks/dataset_overview.ipynb` — Jupyter notebook summarizing dataset properties
 
-Models: Logistic (baseline), CART, C4.5, KNN (L1/L2), Naive Bayes (Gaussian & quantile-binned).
+## Dataset Description
 
-Evaluation: PR-AUC (primary), ROC-AUC, Recall at Precision ≈ 0.80, (optionally) Brier & calibration plots.
+The dataset contains clinical features collected during ICU stays. The target variable is `hospital_death` indicating in-hospital mortality.
 
-Extensions: Early-window ablation, NB discretization, KNN distance/k grid, CART vs C4.5, cost-aware thresholding, missingness as signal, light soft-vote ensemble, subgroup slices (age/ICU type), top-10 “feature-economy” model.
+**Key notes:**
 
+- Many lab values are missing for patients who were not tested.
+- Core features like `icu_type`, `pre_icu_los_days`, `apache_post_operative`, and `encounter_id` have no missing values.
+- This dataset is derived from [MIMIC-III](https://mimic.mit.edu/) and designed for predictive modeling.
 
+## Citation
 
-DATA ORGANIZATION 
+WiDS Datathon 2020: [https://www.kaggle.com/c/widsdatathon2020](https://www.kaggle.com/c/widsdatathon2020)
 
+If you use this dataset, please cite:
 
-Per-patient file format
-Time,Variable,Value
-0,HR,82
-0,SysABP,120
-0,MAP,85
-0.5,HR,86
-1,SysABP,118
-...
+> WiDS Datathon 2020 ICU Mortality Prediction Dataset, derived from MIMIC-III, Stanford University, MIT, and Harvard. Retrieved from Kaggle.
 
+[Karen Matthys, Marzyeh Ghassemi, Meredith Lee, NehaGoel, Sharada Kalanidhi, and sumalaika. WiDS Datathon 2020. https://kaggle.com/competitions/widsdatathon2020, 2020. Kaggle.] 
 
-Time: hours since ICU admission (floating point). The dataset is already clipped to the first 48 hours.
+## License
 
-Variable: short code for a vital sign, lab, or derived measurement (e.g., HR, SysABP, MAP, RespRate, Temp, SpO2, WBC, Hgb, Glucose, Sodium, Creatinine, etc.).
-
-Value: numeric value as text. Some rows may be non-numeric (rare) or blank; handle robustly.
+Check Kaggle's dataset license. This repository is for **educational purposes only**.
